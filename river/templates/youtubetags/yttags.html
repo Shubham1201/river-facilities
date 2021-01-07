@@ -9,6 +9,7 @@
 
     <link rel="stylesheet" href="{% static 'youtubevideodownload.css' %}">
     <link rel="stylesheet" href="{% static 'bootstrap\css\bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'tags.css' %}">
     <link rel="stylesheet" href="{% static 'font-icons/css/font-awesome.min.css' %}">
 
 
@@ -44,7 +45,7 @@
     <p class="text-center p_title"><b>YouTube Tags Show</b></p>
 
     <!-- Form For URL -->
-    <form action="youtubetagsget/" target="blank">
+    <form action="{% url 'tagsget' %}">
     <div class="input-group">
         <input type="url" class="form-control" placeholder="Enter Url" id="inputbox1" name="inputbox1">
         <div class="input-group-append">
@@ -53,6 +54,135 @@
     </div>
     </form>
     </div>
+
+    {% if empty_tags %}
+
+    <p style="text-align: center; font-weight: bold; font-size: 22px; padding-top: 20px;">
+        CLEAR TAGS WHICH YOU NOT NEED:
+    </p>
+    <p>
+       <div class="set_size">
+        <div class="tags-input" data-name="tags-input" id="tago">
+          
+        </div>
+       </div>
+    </p>
+
+    <br>
+    <br>
+
+    
+    <p style="text-align: center; font-weight: bold; font-size: 22px;">
+        INSTRACTIONS:
+    </p>
+    <p style="text-align: left; font-weight: bold; font-size: 15px; padding-left: 25%;">
+        AUTOMATICALY WILL CLEAR TAGS IN BOTTOM PART.
+    </p>
+    <p style="text-align: left; font-weight: bold; font-size: 15px; padding-left: 25%;">
+        SIMPALY JUST CLICK ON THE COPY BUTTON.
+    </p>
+    <p style="text-align: left; font-weight: bold; font-size: 15px; padding-left: 25%;">
+        WILL COPY TAGS WHICH YOU CAN SEE IN BOTTOM TEXT AREA.
+    </p>
+
+    <b><p name="txt_copy" id="txt_copy"class="area_style"></p></b>
+
+    
+    {% comment %} <script src="{% static 'tags.js' %}"></script> {% endcomment %}
+
+<script>
+    
+        [].forEach.call(document.getElementsByClassName('tags-input'), function (el) {
+    let hiddenInput = document.createElement('input'),
+        mainInput = document.createElement('input'),
+        tags = [];
+
+    hiddenInput.setAttribute('type', 'hidden');
+    hiddenInput.setAttribute('name', el.getAttribute('data-name'));
+
+    mainInput.setAttribute('type', 'text');
+    mainInput.classList.add('main-input');
+    mainInput.addEventListener('input', function () {
+        let enteredTags = mainInput.value.split(',');
+        if (enteredTags.length > 1) {
+            enteredTags.forEach(function (t) {
+                let filteredTag = filterTag(t);
+                if (filteredTag.length > 0)
+                    addTag(filteredTag);
+            });
+            mainInput.value = '';
+        }
+    });
+
+    mainInput.addEventListener('keydown', function (e) {
+        let keyCode = e.which || e.keyCode;
+        if (keyCode === 8 && mainInput.value.length === 0 && tags.length > 0) {
+            removeTag(tags.length - 1);
+        }
+    });
+
+    el.appendChild(mainInput);
+    el.appendChild(hiddenInput);
+
+    var a = ["{% for i in empty_tags %}  {{ i }},  {% endfor %}"];
+            var b = a[0];
+            var c = b.split(", ");
+
+            for(const i in c){
+                addTag(c[i]);
+            }
+
+    function addTag (text) {
+        let tag = {
+            text: text,
+            element: document.createElement('span'),
+        };
+
+        tag.element.classList.add('tag');
+        tag.element.textContent = tag.text;
+
+        let closeBtn = document.createElement('span');
+        closeBtn.classList.add('close');
+        closeBtn.addEventListener('click', function () {
+            removeTag(tags.indexOf(tag));
+        });
+        tag.element.appendChild(closeBtn);
+
+        tags.push(tag);
+
+        el.insertBefore(tag.element, mainInput);
+
+        refreshTags();
+    }
+
+    function removeTag (index) {
+        let tag = tags[index];
+        tags.splice(index, 1);
+        el.removeChild(tag.element);
+        refreshTags();
+    }
+
+    function refreshTags () {
+        let tagsList = [];
+        tags.forEach(function (t) {
+            tagsList.push(t.text);
+        });
+        hiddenInput.value = tagsList.join(',');
+        var copa = document.getElementById("txt_copy");
+        copa.innerHTML = tagsList;
+    }
+
+    function filterTag (tag) {
+        return tag.replace(/[^\w -]/g, '').trim().replace(/\W+/g, '-');
+    }
+    });
+    
+</script>
+
+    <br>
+    <br>
+
+    {% endif %}
 
     <script src="{% static 'bootstrap/js/jquery.min.js' %}"></script>
     <script src="{% static 'bootstrap/js/bootstrap.min.js' %}"></script>

@@ -101,5 +101,4 @@ def tagsget(request):
         empty_tags.append(tag['content'])
     print(empty_tags)
     context = {'empty_tags': empty_tags}
-    return render(request, 'youtubetags/youtubetagsget.html', context)
-
+    return render(request, 'youtubetags/yttags.html', context)

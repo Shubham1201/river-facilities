@@ -66,15 +66,15 @@
     <br>
     <div class="container">
         <div class="row">
-          <div class="col-md">
-            <p class="h3 text-center mt-5 mb-5"><img src="{{ thumb }}"></p>
+          <div class="col col-md">
+            <img src="{{ thumb }}" class="h3 text-center mt-5 mb-5">
           </div>
-          <div class="col-md">
+          <div class="col col-md">
             <p class="h3 text-center mt-5 mb-5">Title:- {{ title }}</p>
-            <p class="h3 text-center mt-5 mb-5">Duration:- {{ duration }}</p>
-            <p class="h3 text-center mt-5 mb-5">Views:- {{ views }}</p>       
-            <p class="h3 text-center mt-5 mb-5">Likes:- {{ likes }}</p>         
-            <p class="h3 text-center mt-5 mb-5">Dislikes:- {{ dislikes }}</p>           
+            <p class="h3 text-center mt-4 mb-3">Duration:- {{ duration }}</p>
+            <p class="h3 text-center mt-3 mb-1">Views:- {{ views }}</p> 
+            <p class="h3 text-center mt-2 mb-5">Likes:- {{ likes }}</p>         
+            <p class="h3 text-center mt-1 mb-5">Dislikes:- {{ dislikes }}</p>                          
           </div>
         </div>
       </div>
@@ -82,7 +82,7 @@
     <p class="h3 text-center mt-5 mb-5">Title:- {{ title }}</p> -->
 
     <div class="table-box" id="download_tbl">
-        <div class="table-row table-head">
+        <div class="table-row table-head col-md">
             <div class="table-cell first-cell">
                 <p class="font-weight-bold">Resolution</p>
             </div>
@@ -99,7 +99,7 @@
 
         <p class="h3 text-center mt-5 mb-5">Video with Sound</p>
         {% for i in streams %}
-        <div class="table-row">
+        <div class="table-row col-md">
             
             <div class="table-cell first-cell">
                 <p>{{ i.resolution }}</p>
@@ -124,7 +124,7 @@
         <p class="h3 text-center mt-5 mb-5">Video Only (no sound)</p>
 
         {% for i in stream_video %}
-        <div class="table-row">
+        <div class="table-row col-md">
             <div class="table-cell first-cell">
                 <p>{{ i.resolution }}</p>
             </div>
@@ -146,7 +146,7 @@
         <p class="h3 text-center mt-5 mb-5">Audio Only (Like mp3)</p>
 
         {% for i in stream_audio %}
-        <div class="table-row">
+        <div class="table-row col-md">
             <div class="table-cell first-cell">
                 <p>{{ i.resolution }}</p>
             </div>
