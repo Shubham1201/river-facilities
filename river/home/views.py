@@ -9,7 +9,6 @@ from django.http import HttpResponseRedirect
 from bs4 import BeautifulSoup
 import requests
 from django.template.defaultfilters import filesizeformat
-
 from PyPDF4 import PdfFileReader
 from gtts import gTTS
 from tempfile import TemporaryFile
@@ -83,6 +82,17 @@ def youtubetags(request):
 
 def tagsget(request): 
     link1 = request.GET.get('inputbox1')
+   
+    if 'm.' in link1:
+            link1 = link1.replace(u'm.', u'')
+
+    elif 'youtu.be' in link1:
+            video_id = link1.split('/')[-1]
+            link1 = 'https://www.youtube.com/watch?v=' + video_id
+
+    if len(link1.split("=")[-1]) != 11:
+            return HttpResponse('Enter correct url.')
+
     request1 = requests.get(link1)
     html = BeautifulSoup(request1.content, "html.parser")
     tags = html.find_all("meta", property="og:video:tag")
